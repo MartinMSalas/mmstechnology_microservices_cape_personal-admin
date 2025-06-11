@@ -1,0 +1,25 @@
+# Local fallback configurations if Config Server is not available or for properties not in Config Server.
+# Most configurations should be in config-repo/user-service.yml
+
+server:
+  port: 8081 # Default port, can be overridden by Config Server or dynamic port if set to 0
+
+# Fallback Eureka client configuration (should ideally be in Config Server)
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+
+# Fallback Datasource (should be in Config Server)
+# spring:
+#   datasource:
+#     url: jdbc:postgresql://localhost:5432/users_db_local
+#     username: user_local
+#     password: password_local
+#     driver-class-name: org.postgresql.Driver
+#   jpa:
+#     hibernate:
+#       ddl-auto: update # For dev, 'validate' or 'none' for prod
+#     show-sql: true

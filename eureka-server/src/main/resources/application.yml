@@ -1,0 +1,19 @@
+server:
+  port: 8761 # Default Eureka port
+
+spring:
+  application:
+    name: eureka-server
+
+eureka:
+  instance:
+    hostname: localhost
+  client:
+    register-with-eureka: false # Don't register yourself with the Eureka server (you are the server)
+    fetch-registry: false # Don't fetch registry information from other Eureka servers (standalone mode)
+    service-url: # In a multi-node setup, other nodes would be listed here.
+      defaultZone: http://${eureka.instance.hostname}:${server.port}/eureka/
+  server:
+    wait-time-in-ms-when-sync-empty: 0 # Optional: Speeds up startup for a single node dev environment
+    # renewal-percent-threshold: 0.85 # Default, for production consider adjusting
+    # enable-self-preservation: true # Default, recommended for production

@@ -1,0 +1,47 @@
+# Properties specific to user-service, served by Config Server
+
+server:
+  port: 8081 # Specify port for user-service, or use 0 for dynamic port
+
+spring:
+  application:
+    name: user-service
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payment_app_db # Ensure this DB exists
+    username: your_postgres_user # CHANGE THIS
+    password: your_postgres_password # CHANGE THIS
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # 'update' for development. Use 'validate' or 'none' in production.
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true # Pretty print SQL
+    show-sql: true # Log SQL statements
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/ # Location of Eureka Server
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    #instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    prefer-ip-address: true # Use IP address for registration
+
+user-service:
+  welcome-message: "Welcome to the User Service! (Configured in user-service.yml via Config Server)"
+
+# Example: Overriding a global property for a specific service
+global:
+  message: "This is a user-service specific global message override (from user-service.yml)"
+
+management: # Actuator settings
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Expose all actuator endpoints
+  endpoint:
+    health:
+      show-details: always

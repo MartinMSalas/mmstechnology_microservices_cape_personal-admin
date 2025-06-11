@@ -1,0 +1,24 @@
+server:
+  port: 8080 # Default port for the API Gateway
+
+# Eureka client configuration - so Gateway can find services.
+# This could also be moved to api-gateway.yml in config-repo.
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true # API Gateway registers itself with Eureka
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true # Recommended for some environments
+
+# Default Spring Cloud Gateway routes can be defined here as a fallback
+# or for very static routes. Best practice is to define them in config-repo/api-gateway.yml
+# spring:
+#   cloud:
+#     gateway:
+#       routes:
+#         - id: example_route
+#           uri: https://example.org
+#           predicates:
+#             - Path=/example/**

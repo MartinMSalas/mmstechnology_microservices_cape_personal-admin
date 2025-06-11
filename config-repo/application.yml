@@ -1,0 +1,49 @@
+# Global properties accessible to all applications by default
+# (unless they have their own application.yml or {spring.application.name}.yml)
+
+management: # Example: common actuator settings
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Expose all actuator endpoints by default (be careful in production)
+  endpoint:
+    health:
+      show-details: always
+
+# Example of a custom global property
+global:
+  message: "This is a global message from the config server (application.yml)"
+
+# --- Distributed Tracing Configuration (Micrometer Tracing with Zipkin) ---
+management:
+  tracing:
+    enabled: true # Enabled by default if actuator and tracing deps are present, but explicit is good
+    sampling:
+      probability: 1.0 # Sample all traces in dev/testing. Adjust for production (default is 0.1).
+  zipkin:
+    tracing:
+      endpoint: "http://localhost:9411/api/v2/spans" # Default Zipkin V2 API endpoint
+      # For Spring Boot 2.x with Sleuth, it was spring.zipkin.base-url=http://localhost:9411/
+      # Spring Boot 3.x with Micrometer uses management.zipkin.tracing.endpoint
+
+# Optional: Configure service name in traces if not inferred correctly by default.
+# Usually, spring.application.name is used.
+# management:
+#   observations:
+#     key-values:
+#       service.name: "\${spring.application.name:unknown-service}" # Example, usually automatic
+
+# To see trace IDs in logs (auto-configured with compatible logging starters like Logback)
+logging:
+  pattern:
+    level: "%5p [\${spring.application.name:unknown-service},%X{traceId:-},%X{spanId:-}]" # Example for console logging
+
+# --- Security Configuration (Keycloak Integration Placeholder) ---
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          # IMPORTANT: Replace with your actual Keycloak realm issuer URI
+          issuer-uri: "http://localhost:8180/realms/your-payment-app-realm"
+          # jwk-set-uri: "${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs" # Usually auto-discovered
