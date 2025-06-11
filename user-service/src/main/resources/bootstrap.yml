@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: user-service # This name will be used to fetch user-service.yml from Config Server
+  cloud:
+    config:
+      uri: http://localhost:8888 # Address of the Config Server
+      fail-fast: true
+      # profile: dev
+  #profiles:
+    #active: dev

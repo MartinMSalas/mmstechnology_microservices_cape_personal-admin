@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: api-gateway # This name will be used to fetch api-gateway.yml from Config Server
+  cloud:
+    config:
+      uri: http://localhost:8888 # Address of the Config Server
+      fail-fast: true # Fail startup if Config Server is not available
+      # profile: dev # Optional: specify a profile if needed
+  #profiles: # Define active profiles for Spring Boot application itself, can be overridden
+    #active: dev
