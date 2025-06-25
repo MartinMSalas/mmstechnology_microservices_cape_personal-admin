@@ -1,7 +1,7 @@
 # Global properties accessible to all applications by default
 # (unless they have their own application.yml or {spring.application.name}.yml)
 
-management: # Example: common actuator settings
+management: # UNA SOLA CLAVE management
   endpoints:
     web:
       exposure:
@@ -9,26 +9,24 @@ management: # Example: common actuator settings
   endpoint:
     health:
       show-details: always
-
-# Example of a custom global property
-global:
-  message: "This is a global message from the config server (application.yml)"
-
-# --- Distributed Tracing Configuration (Micrometer Tracing with Zipkin) ---
-management:
-  tracing:
+  # --- Distributed Tracing Configuration (Micrometer Tracing with Zipkin) ---
+  tracing: # Anidado bajo el único 'management'
     enabled: true # Enabled by default if actuator and tracing deps are present, but explicit is good
     sampling:
       probability: 1.0 # Sample all traces in dev/testing. Adjust for production (default is 0.1).
-  zipkin:
+  zipkin: # Anidado bajo el único 'management'
     tracing:
       endpoint: "http://localhost:9411/api/v2/spans" # Default Zipkin V2 API endpoint
       # For Spring Boot 2.x with Sleuth, it was spring.zipkin.base-url=http://localhost:9411/
       # Spring Boot 3.x with Micrometer uses management.zipkin.tracing.endpoint
 
+# Example of a custom global property
+global:
+  message: "This is a global message from the config server (application.yml)"
+
 # Optional: Configure service name in traces if not inferred correctly by default.
 # Usually, spring.application.name is used.
-# management:
+# management: # Esta sección estaba comentada, pero si se descomentara, también necesitaría fusión o estar bajo una clave diferente.
 #   observations:
 #     key-values:
 #       service.name: "\${spring.application.name:unknown-service}" # Example, usually automatic
