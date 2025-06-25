@@ -4,11 +4,16 @@ spring:
   cloud:
     config:
       server:
-        git:
-          uri: git@github.com:MartinMSalas/config-server-personal-admin.git
-          private-key: file:/home/m/.ssh/id_rsa
-          default-label: master
-          ignore-local-ssh-settings: false
+        native:
+          search-locations: file:./config-repo/ # Apunta al config-repo local
+          # La configuración de Git anterior se elimina/comenta
+          # git:
+          #   uri: git@github.com:MartinMSalas/config-server-personal-admin.git
+          #   private-key: file:/home/m/.ssh/id_rsa
+          #   default-label: master
+          #   ignore-local-ssh-settings: false
+  profiles:
+    active: native # Asegurarse de que el perfil native esté activo
 
 server:
   port: 8888
@@ -17,15 +22,18 @@ management:
   endpoints:
     web:
       exposure:
-        include: health,info
+        include: health,info,env,configprops # Exponer más endpoints para depuración
   info:
     env:
       enabled: true
+  endpoint:
+    health:
+      show-details: always
 
 info:
   app:
     name: api-config-server
-    description: API Config Server
+    description: API Config Server (Native Backend)
     version: 1.0.0
 
 eureka:
@@ -33,7 +41,10 @@ eureka:
     instance-id: MMSTechnology-Personal-Admin:${spring.application.name}:${server.port}
     statusPageUrlPath: http://localhost:8888/actuator/info
     healthCheckUrlPath: http://localhost:8888/actuator/health
+    # Preferir la IP para el registro en Eureka si hay problemas con hostname
+    # prefer-ip-address: true
   client:
     register-with-eureka: true
+    fetch-registry: true # Necesario para que el config server sepa de otros servicios si es necesario
     serviceUrl:
       defaultZone: http://localhost:8761/eureka/
