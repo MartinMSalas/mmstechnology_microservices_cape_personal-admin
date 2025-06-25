@@ -36,7 +36,7 @@ management:
 # To see trace IDs in logs (auto-configured with compatible logging starters like Logback)
 logging:
   pattern:
-    level: "%5p [\${spring.application.name:unknown-service},%X{traceId:-},%X{spanId:-}]" # Example for console logging
+    level: '%5p [${spring.application.name:unknown-service},%X{traceId:-},%X{spanId:-}]' # Example for console logging
 
 # --- Security Configuration (Keycloak Integration Placeholder) ---
 spring:

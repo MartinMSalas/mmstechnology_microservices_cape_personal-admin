@@ -2,9 +2,9 @@ server:
   port: 7070 # Puerto específico para personal-service desde config-server
 
 personal:
-  greeting: "Hola desde la configuración remota para Personal Service!"
+  greeting: 'Hola desde la configuración remota para Personal Service!' # Usar comillas simples
   instance:
-    id: "${spring.application.name}:${random.uuid}"
+    id: '${spring.application.name}:${random.uuid}' # Usar comillas simples
 
 # Ejemplo de cómo se podrían heredar y usar propiedades de application.yml
 # Si global.message está en application.yml, estará disponible aquí también.
@@ -25,11 +25,11 @@ management:
 
 info:
   app:
-    name: "\${spring.application.name}" # Usar el nombre de la aplicación
+    name: '${spring.application.name}' # Usar comillas simples
     description: "Configuración específica para Personal Service cargada desde Config Server"
-    instanceId: "\${personal.instance.id}"
-    remoteConfigProperty: "\${personal.greeting}"
-    globalMessageFromRemote: "\${global.message:Global message not found}" # Muestra global.message o un default
+    instanceId: '${personal.instance.id}' # Usar comillas simples
+    remoteConfigProperty: '${personal.greeting}' # Usar comillas simples
+    globalMessageFromRemote: '${global.message:Global message not found}' # Usar comillas simples
 
 # Para asegurar que personal-service se registra en Eureka
 eureka:
@@ -40,6 +40,6 @@ eureka:
       defaultZone: http://localhost:8761/eureka/ # Asegurar que esto esté aquí o en application.yml
   instance:
     # prefer-ip-address: true # Considerar si hay problemas de resolución de nombre de host
-    instance-id: "\${spring.application.name}:\${random.uuid}" # Identificador único en Eureka
+    instance-id: '${spring.application.name}:${random.uuid}' # Usar comillas simples
     statusPageUrlPath: "/actuator/info"
     healthCheckUrlPath: "/actuator/health"
