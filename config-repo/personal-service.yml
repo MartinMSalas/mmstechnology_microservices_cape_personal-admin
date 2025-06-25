@@ -1,0 +1,45 @@
+server:
+  port: 7070 # Puerto específico para personal-service desde config-server
+
+personal:
+  greeting: "Hola desde la configuración remota para Personal Service!"
+  instance:
+    id: "${spring.application.name}:${random.uuid}"
+
+# Ejemplo de cómo se podrían heredar y usar propiedades de application.yml
+# Si global.message está en application.yml, estará disponible aquí también.
+# Si se redefine aquí, esta tomará precedencia.
+# global:
+#   message: "Mensaje global, posiblemente modificado por personal-service.yml"
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # Exponer todos los actuadores para personal-service para fácil depuración
+  endpoint:
+    health:
+      show-details: always
+    info: # Para mostrar la info de git si estuviera activo, o custom info
+      enabled: true
+
+info:
+  app:
+    name: "\${spring.application.name}" # Usar el nombre de la aplicación
+    description: "Configuración específica para Personal Service cargada desde Config Server"
+    instanceId: "\${personal.instance.id}"
+    remoteConfigProperty: "\${personal.greeting}"
+    globalMessageFromRemote: "\${global.message:Global message not found}" # Muestra global.message o un default
+
+# Para asegurar que personal-service se registra en Eureka
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/ # Asegurar que esto esté aquí o en application.yml
+  instance:
+    # prefer-ip-address: true # Considerar si hay problemas de resolución de nombre de host
+    instance-id: "\${spring.application.name}:\${random.uuid}" # Identificador único en Eureka
+    statusPageUrlPath: "/actuator/info"
+    healthCheckUrlPath: "/actuator/health"
