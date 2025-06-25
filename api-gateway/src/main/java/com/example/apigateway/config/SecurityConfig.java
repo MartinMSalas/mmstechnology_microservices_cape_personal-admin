@@ -16,7 +16,7 @@ public class SecurityConfig {
         http
             .authorizeExchange(exchanges -> exchanges
                 // Example: Allow actuator health endpoint without authentication
-                .pathMatchers("/actuator/health/**", "/actuator/prometheus/**").permitAll()
+                .pathMatchers("/actuator/health/**", "/actuator/prometheus/**","/actuator/info/**").permitAll()
                 // All other exchanges require authentication
                 .anyExchange().authenticated()
             )

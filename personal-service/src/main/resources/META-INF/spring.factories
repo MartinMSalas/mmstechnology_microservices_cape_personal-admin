@@ -1,0 +1,2 @@
+org.springframework.boot.Bootstrapper=\
+org.springframework.cloud.config.client.ConfigServerBootstrapper

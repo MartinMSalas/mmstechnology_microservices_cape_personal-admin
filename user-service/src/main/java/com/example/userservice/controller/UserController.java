@@ -4,6 +4,7 @@ import com.example.userservice.dto.UserCreateRequestDto;
 import com.example.userservice.dto.UserResponseDto;
 import com.example.userservice.dto.UserUpdateRequestDto;
 import com.example.userservice.service.UserService;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

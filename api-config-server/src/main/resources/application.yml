@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: api-config-server
+  cloud:
+    config:
+      server:
+        git:
+          uri: git@github.com:MartinMSalas/config-server-personal-admin.git
+          private-key: file:/home/m/.ssh/id_rsa
+          default-label: master
+          ignore-local-ssh-settings: false
+
+server:
+  port: 8888
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: api-config-server
+    description: API Config Server
+    version: 1.0.0
+
+eureka:
+  instance:
+    instance-id: MMSTechnology-Personal-Admin:${spring.application.name}:${server.port}
+    statusPageUrlPath: http://localhost:8888/actuator/info
+    healthCheckUrlPath: http://localhost:8888/actuator/health
+  client:
+    register-with-eureka: true
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
